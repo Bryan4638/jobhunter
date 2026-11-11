@@ -1,0 +1,48 @@
+[project]
+name = "jobhunter"
+version = "0.1.0"
+description = "Bot personal de Telegram que analiza ofertas de empleo de grupos contra tu CV y aplica con tu aprobación"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "aiosmtplib>=5.1.3",
+    "aiosqlite>=0.22.1",
+    "google-genai>=2.34.0",
+    "httpx>=0.28.1",
+    "pydantic>=2.14.2",
+    "pydantic-settings>=2.16.2",
+    "pypdf>=6.21.4",
+    "pyyaml>=6.0.3",
+    "rapidfuzz>=3.14.6",
+    "telethon>=1.45.0",
+    "tzdata>=2026.6",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/jobhunter"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+src = ["src"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "ASYNC", "RUF"]
+# Los mensajes del bot usan emojis y español a propósito.
+ignore = ["RUF001", "RUF002", "RUF003"]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.2.0",
+    "pytest-asyncio>=1.4.1.post1",
+    "ruff>=0.17.3",
+]

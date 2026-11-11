@@ -1,0 +1,102 @@
+# Copia este archivo a config.yaml. Todos los valores son opcionales (tienen valores por defecto).
+# Los grupos y el salario mínimo NO se configuran aquí: se gestionan desde el bot
+# (/grupos, /grupo_add, /salario) y tienen prioridad sobre este archivo.
+# Esta configuración es de solo lectura para el análisis de ofertas (docs/08 §4).
+
+sources:
+  catch_up_on_start: true
+  catch_up_max_messages: 200
+
+cv:
+  path: data/cv/cv.pdf               # el CV confirmado (se sube desde el bot con /cv)
+  attachment_filename: "CV.pdf"
+  max_size_mb: 10
+  max_chars: 30000
+
+preferences:
+  modalities: [remote]                 # solo remoto
+  remote_regions_ok: []                # [] = cualquier zona
+  min_salary: null                     # desactivado; se cambia con /salario
+  salary_rule: penalize                # discard | penalize
+  exclude_keywords: ["sin remuneración", "no remunerado", "MLM", "inversión inicial"]
+  seniority: [junior, mid, senior]
+  contract_types: [full_time, part_time, freelance]
+  offer_languages: [es]
+
+signature:
+  include: [email, phone, github_portfolio]
+  email: null
+  phone: null
+  github_portfolio: null
+
+writing:
+  tone: profesional-cercano
+  style_example: null
+
+matching:                            # se cambia desde el bot con /umbral (tiene prioridad)
+  threshold_immediate: 80
+  threshold_digest: 60
+  generate_draft_for_digest: lazy
+
+channels:
+  preferred: telegram_dm
+  fallback_to_email_when_dm_limit: true
+  allow_dm_to_post_author: true
+
+sending:
+  dry_run: true                        # cámbialo a false cuando hayas probado todo
+  require_final_confirmation: true
+  telegram_dm:
+    max_new_users_per_day: 10
+    warn_ratio: 0.8
+    pin_status_message: true
+    min_delay_seconds: 45
+    max_delay_seconds: 180
+    send_cv_as_file: true
+    max_flood_wait_seconds: 120
+    folder_name: "Aplicadas"          # carpeta de Telegram con quien te ha escrito ("" = no usar; máx. 12 letras)
+  email:
+    max_per_day: 30
+    bcc_self: true
+  dedupe_window_days: 30
+  follow_up_days: 7                    # recordatorio si no responden (0 = desactivado)
+
+digest:
+  enabled: true
+  time: "09:00"
+  max_items: 15
+  skip_if_empty: true
+
+prefilter:
+  min_length: 80
+  language_heuristic: true
+  # keywords: [...]                    # ver la lista por defecto en src/jobhunter/config.py
+
+dedupe:
+  window_days: 14
+  similarity_threshold: 92
+
+llm:
+  provider: gemini
+  models:
+    analyze: gemini-3.5-flash
+    write: gemini-3.5-flash
+    fallback: [gemini-3.5-flash-lite]
+  max_concurrency: 2
+  requests_per_minute: 10
+  max_retries: 3
+  request_timeout_seconds: 90
+  temperature_analyze: 0.1
+  temperature_write: 0.7
+  max_offer_chars: 4000
+  injection_penalty: 15
+  anonymize_profile: false
+
+links:
+  fetch_pages: true                  # leer la página enlazada («Ir a la oferta») para analizar la oferta completa
+  max_links: 2
+  max_page_chars: 6000
+  timeout_seconds: 15
+
+retention:
+  discard_raw_after_days: 30

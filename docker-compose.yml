@@ -1,0 +1,11 @@
+services:
+  app:
+    build: .
+    restart: unless-stopped
+    env_file: .env
+    volumes:
+      - ./data:/app/data
+      - ./config.yaml:/app/config.yaml:ro
+    # Necesario para el login interactivo: docker compose run --rm app python -m jobhunter login
+    stdin_open: true
+    tty: true

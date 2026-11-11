@@ -1,0 +1,5 @@
+🚀 Vacante: Desarrollador Backend Node.js / NestJS (Mid)
+Empresa: Fintech Andina · 100% remoto (LATAM) · Tiempo completo
+Salario: 1800 – 2200 USD/mes
+Requisitos: 3+ años con Node.js, NestJS, PostgreSQL, Docker. Deseable AWS.
+Interesados enviar CV a talento@fintechandina.com con el asunto "Backend NestJS"
